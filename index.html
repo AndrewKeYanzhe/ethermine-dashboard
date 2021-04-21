@@ -24,6 +24,7 @@
 
 
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script src="./assets/js/require.min.js"></script>
 	<script>
@@ -200,7 +201,133 @@
 					</div>
 
 				</div>
+			</div>			
+			<!-- <div class="col-lg-6">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Cost Calculation</h3>
+					</div>
+					<div class="card-body">		
+						<div id="chart-temperature" style="height: 16rem"></div>
+					</div>
+				</div>
+				<script>
+					require(['c3', 'jquery'], function(c3, $) {
+						$(document).ready(function(){
+							var chart = c3.generate({
+                  			bindto: '#chart-temperature', // id of chart wrapper
+                  			data: {
+                  				columns: [
+                  				    // each columns data
+                  				    ['data1', 1.4, 2.4, 3.4, 4.4, 5.4],
+                  				    // ['data1', 7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                  				    // ['data2', 3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                  				    ],
+                  				    labels: false,
+                  				type: 'area', // default type of chart
+                  				colors: {
+                  					'data1': tabler.colors["blue"],
+                  					// 'data2': tabler.colors["green"]
+                  				},
+                  				names: {
+                  				    // name of each serie
+                  				    'data1': 'Cost',
+                  				    // 'data2': 'London'
+                  				}
+                  			},
+
+                  			axis: {
+                  				x: {
+                  					type: 'category',
+                  					// name of each category
+                  					categories: ['t(0)', '', '', '','t(now)']
+                  				},
+                  				// y:{
+                  				// 	type: 'category',
+                  				// 	// name of each category
+                  				// 	categories: ['t(0)', '', '','t(now)']
+                  				// }
+                  			},
+                  			legend: {
+                                  show: false, //hide legend
+                              },
+                              padding: {
+                              	bottom: 0,
+                              	top: 0
+                              },
+                          });
+						});
+					});
+				</script>
+			</div> -->			
+			<div class="col-lg-6">
+				
+
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Cost Calculation</h3>
+					</div>
+					<div class="card-body">		
+						<div>
+							<canvas id="myChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<script>
+				  // === include 'setup' then 'config' above ===
+
+
+				  const labels = [
+				  '',
+				  '',
+				  't(0)',
+				  '',
+				  't(now)',
+				  '',
+				  '',
+				  ];
+				  const data = {
+				  	labels: labels,
+				  	datasets: [{
+				  		label: 'My First dataset',
+				  		backgroundColor: 'rgb(255, 99, 132)',
+				  		borderColor: 'rgb(255, 99, 132)',
+				  		data: [NaN, NaN, 4.5, 6.5, 8.5, NaN, NaN],
+				  	}]
+				  };
+
+				  const config = {
+				  	type: 'line',
+				  	data,
+				  	options: {
+				  		scales:{
+				  			y:{
+				  				min:0,
+				  				max:10,
+			  				}
+			  			},
+			  			plugins:{
+			  				title:{
+			  					display:true,
+			  					text:'Cost',
+			  				},
+			  				// legend: {
+			  				// 	title: {
+			  				// 		display: false,
+			  				// 		text: 'Legend Title',
+			  				// 	}
+			  				// }
+			  			}
+			  		},	
+
+				  };
+
+				  var myChart = new Chart(
+				  	document.getElementById('myChart'),
+				  	config
+				  	);
+				  </script>
+				</div>
 			</div>
-		</div>
-	</body>
-	</html>
+		</body>
+		</html>
