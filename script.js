@@ -1,20 +1,10 @@
 let sampleMinerAddress = "0x239bb422Cc8254b64838f396555C64c8cB68dcf7"
-// let sampleAcceptedHashrate = 30.4 //in MH/s (please deduct fees e.g. 0.75% teamredminer, 1% ethermine, 1% stale rate)
-let sampleBreaksFromMining = 53.5 //in hours
-let sampleDailyElectrictyCost = 0.7955697024000000 //sgd
-let sampleMiningBeganTimestamp = "2021-03-24T18:00:00.000+08:00"
 let sampleReportedHashrate = 31.3
 let sampleHashLosses = 2.75 //in percent
-
-// let sample = {
-// 	MinerAddress : "0x239bb422Cc8254b64838f396555C64c8cB68dcf7",
-// 	hashLosses : 30.4, //in MH/s (please deduct fees e.g. 0.75% teamredminer, 1% ethermine, 1% stale rate)
-// 	BreaksFromMining : 40, //in hours
-// 	DailyElectrictyCost : 0.7955697024000000, //sgd
-// 	MiningBeganTimestamp : "2021-03-24T18:00:00.000+08:00",
-// 	ReportedHashrate : 31.3	
-// }
-
+let sampleDailyElectrictyCost = 0.7955697024000000 //sgd
+let sampleMiningBeganTimestamp = "2021-04-20T14:13:00.444085+08:00"
+let sampleInitialCost = 19.43304181
+let sampleBreaksFromMining = 2 //in hours
 
 const varToString = varObj => Object.keys(varObj)[0]
 
@@ -67,8 +57,7 @@ function getethWalletInfo(minerAddress){
 			console.error(error)
 			// resolve(-999999999)
 		});
-	});
-	
+	});	
 }
 
 function getEthermineDashboard(minerAddress) {
@@ -114,44 +103,33 @@ function getEthermineWorkerInfo(minerAddress) {
 function showSample(){
 	console.log("showing sample")
 	document.getElementById("minerAddress").value = sampleMinerAddress
-	document.getElementById("minerAddress").value = sampleMinerAddress
 	// console.log(sampleReportedHashrate)
 	document.getElementById("referenceReportedHashrate").value = sampleReportedHashrate
 	// document.getElementById("reportedHashrate").value = 34343
 	document.getElementById("hashLosses").value = sampleHashLosses
 	document.getElementById("dailyElectrictyCost").value = sampleDailyElectrictyCost
 	document.getElementById("miningBeganTimestamp").value = sampleMiningBeganTimestamp
+	document.getElementById("initialCost").value = sampleInitialCost
 	document.getElementById("breaksFromMining").value = sampleBreaksFromMining
 }
 
 function showSettings(){
-	// if(document.getElementById("settings").style.display == 'none'){
-	// 	document.getElementById("settings").style.display = 'block'
-
-		// document.getElementById("minerAddress").style.display == 'none'
 		document.getElementById("minerAddress").value = minerAddress
 		document.getElementById("referenceReportedHashrate").value = reportedHashrate
 		document.getElementById("hashLosses").value = hashLosses
 		document.getElementById("dailyElectrictyCost").value = dailyElectrictyCost
 		document.getElementById("miningBeganTimestamp").value = miningBeganTimestamp
+		document.getElementById("initialCost").value = initialCost
 		document.getElementById("breaksFromMining").value = breaksFromMining
-	// }
-	// else{
-	// 	document.getElementById("settings").style.display = 'none'
-	// }
 }
 
 function applySettings(){
-	// document.getElementById("totalEth").innerText = "Fetching"
-	// document.getElementById("dailyEth").innerText = "Fetching"
-	// document.getElementById("dailyProfitSgd").innerText = "Fetching"
-	// document.getElementById("profitSgd").innerText = "Fetching"
-
 	minerAddress = document.getElementById("minerAddress").value
 	reportedHashrate = document.getElementById("referenceReportedHashrate").value
 	hashLosses = document.getElementById("hashLosses").value
 	dailyElectrictyCost = document.getElementById("dailyElectrictyCost").value
 	miningBeganTimestamp = document.getElementById("miningBeganTimestamp").value
+	initialCost = document.getElementById("initialCost").value
 	breaksFromMining = document.getElementById("breaksFromMining").value		
 
 	setCookie(varToString({minerAddress}),minerAddress)
@@ -159,12 +137,11 @@ function applySettings(){
 	setCookie(varToString({reportedHashrate}),reportedHashrate)
 	setCookie(varToString({dailyElectrictyCost}),dailyElectrictyCost)
 	setCookie(varToString({miningBeganTimestamp}),miningBeganTimestamp)
+	setCookie(varToString({initialCost}),initialCost)
 	setCookie(varToString({breaksFromMining}),breaksFromMining)
 	console.log(document.cookie)
 
 	location.reload()
-
-	// asyncCall()
 }
 
 function getCookie(cname) {
@@ -262,6 +239,9 @@ async function asyncCall() {
 	daysMined = daysElapsed - breaksFromMining/24
 	// console.log(daysMined)
 	totalCost = daysMined*dailyElectrictyCost
+	// console.log(typeof initialCost)
+	totalCost += Number(initialCost)
+	// console.log(totalCost)
 	// console.log(totalCost)
 	profitSgd = totalBalSgd - totalCost
 	dailyRevenueSgd = ethPerDay*ethPrice
@@ -294,40 +274,25 @@ let hashLosses = getCookie("hashLosses")
 let breaksFromMining = getCookie("breaksFromMining")
 let dailyElectrictyCost = getCookie("dailyElectrictyCost")
 let miningBeganTimestamp = getCookie("miningBeganTimestamp")
+let initialCost = getCookie("initialCost")
 let reportedHashrate = getCookie("reportedHashrate")
 
-// function setDefualtCookies(varName,varValue){
-// 	if (!varValue){
-// 		console.log("setting"+varName)
-// 		setCookie(varName,varValue)
-// 		return sample[varName]
-// 	}
-// }
 
-// minerAddress = setDefualtCookies({minerAddress,minerAddress})
-// minerAddress = setDefualtCookies({minerAddress,minerAddress})
-// minerAddress = setDefualtCookies({minerAddress,minerAddress})
-// minerAddress = setDefualtCookies({minerAddress,minerAddress})
-// minerAddress = setDefualtCookies({minerAddress,minerAddress})
-
-
-
-
-
-
-if (!(minerAddress || hashLosses || breaksFromMining || dailyElectrictyCost || miningBeganTimestamp || reportedHashrate)){
+if (!(minerAddress || hashLosses || breaksFromMining || dailyElectrictyCost || miningBeganTimestamp || reportedHashrate || initialCost)){
 	console.log("No cookies set")
 	minerAddress = sampleMinerAddress
 	hashLosses = sampleHashLosses
 	breaksFromMining = sampleBreaksFromMining
 	dailyElectrictyCost = sampleDailyElectrictyCost
 	miningBeganTimestamp = sampleMiningBeganTimestamp
+	initialCost = sampleInitialCost
 	reportedHashrate = sampleReportedHashrate
 
 	setCookie(varToString({minerAddress}),minerAddress)
 	setCookie(varToString({hashLosses}),hashLosses)
 	setCookie(varToString({dailyElectrictyCost}),dailyElectrictyCost)
 	setCookie(varToString({miningBeganTimestamp}),miningBeganTimestamp)
+	setCookie(varToString({initialCost}),initialCost)
 	setCookie(varToString({breaksFromMining}),breaksFromMining)
 	setCookie(varToString({reportedHashrate}),reportedHashrate)
 }

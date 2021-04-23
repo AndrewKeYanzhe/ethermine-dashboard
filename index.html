@@ -54,153 +54,191 @@
 				<div class="container">
 					<div class="d-flex">
 						<div class="h1 m-0">Mining Dashboard</div>
-						<div class="d-flex order-lg-2 ml-auto">		
+						<div class="d-flex order-lg-2 ml-auto"></div>
+					</div>
+				</div>
+			</div>
+			<div class="my-3 my-md-5">
+				<div class="container">
+					<div class="page-header">
+					</div>
+					<div class="row row-cards">
+						<div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-right text-green">
+										<span id="dailyEth">--</span>
+										<i class="fe fe-chevron-up"></i>
+									</div>
+									<div class="h1 m-0">
+										<span id="totalEth">--</span>
+									</div>
+									<div class="text-muted mb-4">Total ETH</div>
+								</div>
+							</div>
 						</div>
-<!--               <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
-                <span class="header-toggler-icon"></span>
-            </a> -->
-        </div>
-    </div>
-</div>
+						<div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-right text-green">
+										<span id="dailyProfitSgd">--</span>
+										<i class="fe fe-chevron-up"></i>
+									</div>
+									<div class="h1 m-0">
+										<span id="profitSgd">--</span>
+									</div>
+									<div class="text-muted mb-4">Profits (SGD)</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-right text-orange">
+										<span id="dailyCost">--</span>
+										<i class="fe fe-chevron-up"></i>
+									</div>
+									<div class="h1 m-0">
+										<span id="totalCost">--</span>
+									</div>
+									<div class="text-muted mb-4">Total cost (SGD)</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-right text-green">
+										<span id="dailyRevenueSgd">--</span>
+										<i class="fe fe-chevron-up"></i>
+									</div>
+									<div class="h1 m-0">
+										<span id="revenueSgd">--</span>
+									</div>
+									<div class="text-muted mb-4">Revenue (SGD)</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-right text-green">
+										avg <span id="avgProfitMargin">--</span>%
+										<!-- <i class="fe fe-chevron-down"></i> -->
+									</div>
+									<div class="h1 m-0">
+										<span id="currentProfitMargin">--</span>%
+									</div>
+									<div class="text-muted mb-4">Profit Margin</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-right text-green">
+										<span id="gpuUsage">--</span>%
+										<!-- <i class="fe fe-chevron-down"></i> -->
+									</div>
+									<div class="h1 m-0">
+										<span id="currentReportedHashrate">--</span>
+									</div>
+									<div class="text-muted mb-4">Current Hashrate</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6" id="incompleteSettingsWarning" style="display: none;">
+							<div class="alert alert-warning" role="alert">
+								<h4 class="alert-title">Missing mining parameters</h4>
+								<div class="text-muted">Please fill up every section.</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Settings</h3>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										<label class="form-label">Ethereum wallet address</label>
+										<textarea id="minerAddress" class="form-control" name="example-textarea" placeholder=""></textarea>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Typical hashrate</label>
+										<input id="referenceReportedHashrate" type="text" class="form-control" name="example-text-input" placeholder="">
+									</div>						
+									<div class="mb-3">
+										<label class="form-label">Fees and losses <br>e.g. TeamRedMiner (0.75%) + Ethermine (1%) + stale shares (1%) = 2.75%</label>
+										<input id="hashLosses" type="text" class="form-control" name="example-text-input" placeholder="">
+									</div>
+									<hr>
+									<h3 class="card-title">Cost calculation</h3>
+									<h4 class="text-center"><var>y</var> = <var>mx</var> + <var>c</var></h4>
+									<div class="table-responsive">
+										<table										class="table table-vcenter">
+											<tbody>
+												<tr>
+													<td class="text-center">y</td>
+													<td class="text-muted">Total cost</td>
+												</tr>
+												<tr>
+													<td class="text-center">m</td>
+													<td class="text-muted">Cost per day</td>
+												</tr>
+												<tr>
+													<td class="text-center">x</td>
+													<td class="text-muted">Days spent mining (now - <var>t</var><sub>0</sub> - breaks)</td>
+													<!-- <td class="text-muted" >Time spent mining</td> -->
+												</tr>
+												<tr>
+													<td class="text-center">c</td>
+													<td class="text-muted">Initial cost at <var>t</var><sub>0</sub></td>
 
-<div class="my-3 my-md-5">
-	<div class="container">
-		<div class="page-header">
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Daily electricity cost in SGD (<var>m</var>)</label>
+										<input id="dailyElectrictyCost" type="text" class="form-control" name="example-text-input" placeholder="">
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Time when mining began (<var>t</var><sub>0</sub>)</label>
+										<input id="miningBeganTimestamp" type="text" class="form-control" name="example-text-input" placeholder="">
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Initial cost at <var>t</var><sub>0</sub> (<var>c</var>)</label>
+										<input id="initialCost" type="text" class="form-control" name="example-text-input" placeholder="">
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Hours of breaks from mining</label>
+										<input id="breaksFromMining" type="text" class="form-control" name="example-text-input" placeholder="">
+									</div>
+
+									<h4>Examples</h4>
+									<p>If you are mining for the first time:<br>
+									1. Set initial cost to 0 </p>
+									<p>
+										If your electricity cost has changed:<br>
+										1. Note down your current cost<br>
+										2. Set <var>t</var><sub>0</sub> to the current time<br>
+										3. Set initial cost to the noted down cost value
+									</p>
+									<div class="btn-list">
+										<button class="btn" onclick="showSample()">Sample</button>
+										<button class="btn btn-primary" onclick="applySettings()">Apply</button>
+									</div>
+								</div>
+
+
+							</div>
+						</div>			
+
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="row row-cards">
-			<div class="col-6 col-sm-4 col-lg-2">
-				<div class="card">
-					<div class="card-body p-3 text-center">
-						<div class="text-right text-green">
-							<span id="dailyEth">--</span>
-							<i class="fe fe-chevron-up"></i>
-						</div>
-						<div class="h1 m-0">
-							<span id="totalEth">--</span>
-						</div>
-						<div class="text-muted mb-4">Total ETH</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-6 col-sm-4 col-lg-2">
-				<div class="card">
-					<div class="card-body p-3 text-center">
-						<div class="text-right text-green">
-							<span id="dailyProfitSgd">--</span>
-							<i class="fe fe-chevron-up"></i>
-						</div>
-						<div class="h1 m-0">
-							<span id="profitSgd">--</span>
-						</div>
-						<div class="text-muted mb-4">Profits (SGD)</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-6 col-sm-4 col-lg-2">
-				<div class="card">
-					<div class="card-body p-3 text-center">
-						<div class="text-right text-orange">
-							<span id="dailyCost">--</span>
-							<i class="fe fe-chevron-up"></i>
-						</div>
-						<div class="h1 m-0">
-							<span id="totalCost">--</span>
-						</div>
-						<div class="text-muted mb-4">Total cost (SGD)</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-6 col-sm-4 col-lg-2">
-				<div class="card">
-					<div class="card-body p-3 text-center">
-						<div class="text-right text-green">
-							<span id="dailyRevenueSgd">--</span>
-							<i class="fe fe-chevron-up"></i>
-						</div>
-						<div class="h1 m-0">
-							<span id="revenueSgd">--</span>
-						</div>
-						<div class="text-muted mb-4">Revenue (SGD)</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-6 col-sm-4 col-lg-2">
-				<div class="card">
-					<div class="card-body p-3 text-center">
-						<div class="text-right text-green">
-							avg <span id="avgProfitMargin">--</span>%
-							<!-- <i class="fe fe-chevron-down"></i> -->
-						</div>
-						<div class="h1 m-0">
-							<span id="currentProfitMargin">--</span>%
-						</div>
-						<div class="text-muted mb-4">Profit Margin</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-6 col-sm-4 col-lg-2">
-				<div class="card">
-					<div class="card-body p-3 text-center">
-						<div class="text-right text-green">
-							<span id="gpuUsage">--</span>%
-							<!-- <i class="fe fe-chevron-down"></i> -->
-						</div>
-						<div class="h1 m-0">
-							<span id="currentReportedHashrate">--</span>
-						</div>
-						<div class="text-muted mb-4">Current Hashrate</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6" id="incompleteSettingsWarning" style="display: none;">
-				<div class="alert alert-warning" role="alert">
-					<h4 class="alert-title">Missing mining parameters</h4>
-					<div class="text-muted">Please fill up every section.</div>
-				</div>
-			</div>
-			<div class="col-lg-6">
-				<div class="card">
-					<div class="card-header">
-						<h3 class="card-title">Settings</h3>
-					</div>
-					<div class="card-body">
-						<div class="mb-3">
-							<label class="form-label">Ethereum wallet address</label>
-							<textarea id="minerAddress" class="form-control" name="example-textarea" placeholder=""></textarea>
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Typical hashrate</label>
-							<input id="referenceReportedHashrate" type="text" class="form-control" name="example-text-input" placeholder="">
-						</div>						
-						<div class="mb-3">
-							<label class="form-label">Fees and losses <br>e.g. TeamRedMiner (0.75%) + Ethermine (1%) + stale shares (1%) = 2.75%</label>
-							<input id="hashLosses" type="text" class="form-control" name="example-text-input" placeholder="">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Daily electricity cost in SGD</label>
-							<input id="dailyElectrictyCost" type="text" class="form-control" name="example-text-input" placeholder="">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Time when mining began</label>
-							<input id="miningBeganTimestamp" type="text" class="form-control" name="example-text-input" placeholder="">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Hours of breaks from mining</label>
-							<input id="breaksFromMining" type="text" class="form-control" name="example-text-input" placeholder="">
-						</div>
-						<div class="btn-list">
 
-							<button class="btn" onclick="showSample()">Sample</button>
-							<button class="btn btn-primary" onclick="applySettings()">Apply</button>
-
-
-						</div>
-
-
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</body>
-	</html>
+	</div>
+</body>
+</html>
