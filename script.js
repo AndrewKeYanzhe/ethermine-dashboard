@@ -10,28 +10,12 @@ const varToString = varObj => Object.keys(varObj)[0]
 
 function getEtherPrice() {
 	//for ETH to SGD
-	let apiUrl = "https://min-api.cryptocompare.com/data/price?fsym=eth&tsyms=sgd"
-	return new Promise(resolve => {
-		axios
-		.get(apiUrl)
-		.then(response => {
-			// console.log(response.data.data)
-			// console.log(response.data.data.currentStatistics.unpaid);
-			resolve(response.data.SGD)
-		})
-		.catch(error => console.error(error));
-	});
-}
-
-function getEtherPrice2() {
-	//for ETH to SGD
 	let apiUrl = "https://api.coinbase.com/v2/exchange-rates?currency=sgd"
 	return new Promise(resolve => {
 		axios
 		.get(apiUrl)
 		.then(response => {
 			// console.log(response.data.data)
-			// console.log(response.data.data.currentStatistics.unpaid);
 			resolve(response.data.data.rates.ETH**-1)
 		})
 		.catch(error => {
@@ -169,7 +153,7 @@ function setCookie(cname, cvalue) {
 async function asyncCall() {
 	console.log('calling');
 	let ethermineDashboard = getEthermineDashboard(minerAddress);
-	let ethPrice = getEtherPrice2() //in SGD, using coinbase
+	let ethPrice = getEtherPrice() //in SGD, using coinbase
 	let ethermineCurrentStats = getEthermineCurrentStats(minerAddress)
 	let ethermineWorkerInfo = getEthermineWorkerInfo(minerAddress)
 	let ethWalletInfo = getethWalletInfo(minerAddress)
