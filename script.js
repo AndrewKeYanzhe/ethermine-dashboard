@@ -3,8 +3,8 @@ let sampleReportedHashrate = 31.3
 let sampleHashLosses = 2.75 //in percent
 let sampleDailyElectrictyCost = 0.7955697024000000 //sgd
 let sampleMiningBeganTimestamp = "2021-04-20T14:13:00.444085+08:00"
-let sampleInitialCost = 19.43304181
-let sampleBreaksFromMining = 2 //in hours
+let sampleInitialCost = -3.07
+let sampleBreaksFromMining = 7.33 //in hours
 
 const varToString = varObj => Object.keys(varObj)[0]
 
