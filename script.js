@@ -250,6 +250,7 @@ async function asyncCall() {
 		document.getElementById("currentProfitMargin").innerText = currentProfitMargin.toFixed(0)
 		document.getElementById("currentReportedHashrate").innerText = currentReportedHashrate.toFixed(1)
 		document.getElementById("gpuUsage").innerText = gpuUsage.toFixed(0)
+		document.getElementById("ethPrice").innerText = ethPrice.toFixed(2)
 	}
 }
 
