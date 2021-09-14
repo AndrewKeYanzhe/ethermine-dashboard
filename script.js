@@ -2,9 +2,9 @@ let sampleMinerAddress = "0x239bb422Cc8254b64838f396555C64c8cB68dcf7"
 let sampleReportedHashrate = 31.3
 let sampleHashLosses = 2.75 //in percent
 let sampleDailyElectrictyCost = 0.7955697024000000 //sgd
-let sampleMiningBeganTimestamp = "2021-04-20T14:13:00.444085+08:00"
-let sampleInitialCost = -3.07
-let sampleBreaksFromMining = 7.33 //in hours
+let sampleMiningBeganTimestamp = "2021-04-24T10:52:00+08:00"
+let sampleInitialCost = 0
+let sampleBreaksFromMining = 2.93 //in days
 
 const varToString = varObj => Object.keys(varObj)[0]
 
@@ -179,12 +179,8 @@ async function asyncCall() {
 	let totalEth = walletEth + unpaidEth
 	console.log({totalEth})
 	console.log("")
-	let currentReportedHashrate = ethermineDashboard.currentStatistics.reportedHashrate/10**6
-	gpuUsage = currentReportedHashrate/reportedHashrate*100
-
-
-
-
+	
+	
 	/*
 	ethermine provides REWARDS PER UNIT TIME based on your AVERAGE hashrate over the last 24 hours.
 
@@ -194,21 +190,37 @@ async function asyncCall() {
 
 	ethermine provides 2 values for (last 24hr avg hashrate), both are displayed below. currentstats seems to provide the more accurate value.
 	*/
+	ethPerDay = 0
+	dailyProfitSgd = 0
+	dailyRevenueSgd = 0
 	acceptedHashrate = reportedHashrate*(100-hashLosses)/100
-	console.log("unmodified daily payrate: " + ethermineCurrentStats.coinsPerMin*60*24)			
-	console.log("currentstats api avg    : " + ethermineCurrentStats.averageHashrate/10**6)
-	console.log("currentstats api payrate: " + ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/(ethermineCurrentStats.averageHashrate/10**6))
-	console.log("workerinfo   api avg    : " + ethermineWorkerInfo[0].averageHashrate/10**6)
-	console.log("workerinfo   api payrate: " + ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/(ethermineWorkerInfo[0].averageHashrate/10**6))
-	console.log("")
-	// let avgHashrateOverLastDay = ethermineWorkerInfo[0].averageHashrate/10**6
-	let avgHashrateOverLastDay = ethermineCurrentStats.averageHashrate/10**6			
-	let totalBalSgd = totalEth*ethPrice
-	let ethPerDay = ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/avgHashrateOverLastDay
-	// console.log(ethPerDay)
-	
+	currentProfitMargin = "--"
+	currentReportedHashrate = 0
+	currentElectricityCost = 0
+	if (ethermineCurrentStats != 'NO DATA'){
+		console.log("unmodified daily payrate: " + ethermineCurrentStats.coinsPerMin*60*24)			
+		console.log("currentstats api avg    : " + ethermineCurrentStats.averageHashrate/10**6)
+		console.log("currentstats api payrate: " + ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/(ethermineCurrentStats.averageHashrate/10**6))
+		console.log("workerinfo   api avg    : " + ethermineWorkerInfo[0].averageHashrate/10**6)
+		console.log("workerinfo   api payrate: " + ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/(ethermineWorkerInfo[0].averageHashrate/10**6))
+		console.log("")
+		// let avgHashrateOverLastDay = ethermineWorkerInfo[0].averageHashrate/10**6
+		avgHashrateOverLastDay = ethermineCurrentStats.averageHashrate/10**6			
+		
+		ethPerDay = ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/avgHashrateOverLastDay
+		dailyProfitSgd = ethPerDay*ethPrice - dailyElectrictyCost
+		// console.log(ethPerDay)
+		dailyRevenueSgd = ethPerDay*ethPrice
+		currentProfitMargin = (dailyProfitSgd/dailyRevenueSgd*100).toFixed(0)
+		currentReportedHashrate = ethermineDashboard.currentStatistics.reportedHashrate/10**6
+		currentElectricityCost = dailyElectrictyCost
+		
+	}
+	gpuUsage = currentReportedHashrate/reportedHashrate*100
 
-	dailyProfitSgd = ethPerDay*ethPrice - dailyElectrictyCost
+
+	let totalBalSgd = totalEth*ethPrice
+	
 
 
 
@@ -220,7 +232,7 @@ async function asyncCall() {
 	// console.log(miningBegan)
 	daysElapsed = (currentTime - miningBegan)/24/60/60/1000
 	// console.log(daysElapsed)
-	daysMined = daysElapsed - breaksFromMining/24
+	daysMined = daysElapsed - breaksFromMining
 	// console.log(daysMined)
 	totalCost = daysMined*dailyElectrictyCost
 	// console.log(typeof initialCost)
@@ -228,8 +240,8 @@ async function asyncCall() {
 	// console.log(totalCost)
 	// console.log(totalCost)
 	profitSgd = totalBalSgd - totalCost
-	dailyRevenueSgd = ethPerDay*ethPrice
-	currentProfitMargin = dailyProfitSgd/dailyRevenueSgd*100
+	
+	
 	avgProfitMargin = profitSgd/totalBalSgd*100
 
 
@@ -243,11 +255,11 @@ async function asyncCall() {
 		document.getElementById("dailyProfitSgd").innerText = dailyProfitSgd.toFixed(2)
 		document.getElementById("totalCost").innerText = totalCost.toFixed(2)
 		// console.log(dailyElectrictyCost)
-		document.getElementById("dailyCost").innerText = (dailyElectrictyCost*1).toFixed(2) //*1 to convert to number
+		document.getElementById("dailyCost").innerText = (currentElectricityCost*1).toFixed(2) //*1 to convert to number
 		document.getElementById("revenueSgd").innerText = totalBalSgd.toFixed(2)
 		document.getElementById("dailyRevenueSgd").innerText = dailyRevenueSgd.toFixed(2)
 		document.getElementById("avgProfitMargin").innerText = avgProfitMargin.toFixed(0)
-		document.getElementById("currentProfitMargin").innerText = currentProfitMargin.toFixed(0)
+		document.getElementById("currentProfitMargin").innerText = currentProfitMargin
 		document.getElementById("currentReportedHashrate").innerText = currentReportedHashrate.toFixed(1)
 		document.getElementById("gpuUsage").innerText = gpuUsage.toFixed(0)
 		document.getElementById("ethPrice").innerText = ethPrice.toFixed(2)
