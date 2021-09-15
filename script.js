@@ -176,9 +176,7 @@ async function asyncCall() {
 	console.log({unpaidEth})
 	let walletEth = ethWalletInfo
 	console.log({walletEth})
-	let totalEth = walletEth + unpaidEth
-	console.log({totalEth})
-	console.log("")
+	let totalEth = walletEth
 	
 	
 	/*
@@ -198,6 +196,9 @@ async function asyncCall() {
 	currentReportedHashrate = 0
 	currentElectricityCost = 0
 	if (ethermineCurrentStats != 'NO DATA'){
+
+		let totalEth = totalEth + unpaidEth
+
 		console.log("unmodified daily payrate: " + ethermineCurrentStats.coinsPerMin*60*24)			
 		console.log("currentstats api avg    : " + ethermineCurrentStats.averageHashrate/10**6)
 		console.log("currentstats api payrate: " + ethermineCurrentStats.coinsPerMin*60*24*acceptedHashrate/(ethermineCurrentStats.averageHashrate/10**6))
